@@ -25,11 +25,26 @@ $pass = mysqli_real_escape_string($db, $pass);
 echo "<br>pass is: $pass <br>";	
 
 //return false otherwise
-p//return true if credentials are right
+//return true if credentials are right
 function authenticate ($db, $ucid, $pass) {
-		select * from users where ucid='$ucid' and pass='$pass';
+	
+	$s = "select * from users where ucid='$ucid' and pass='$pass'";
+	echo "<br>SQL select statement is $s";
+	//$t: "result set"
+	($t = mysqli_query($db, $s)) or (die(mysqli_error($db)));
+	$num = mysqli_num_rows ($t);
+	
+	if ($num == 0) { 
+		return false;
+	} else {
+		return true;
+	}
 	
 	;}
 
-
+if (authenticate ($db, $ucid, $pass)) {
+	echo "<br>success";
+	} else {
+		echo "<br>failed";
+	}
 ?>
