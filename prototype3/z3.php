@@ -1,5 +1,8 @@
 <?php
 
+session_start();
+unset ($_SESSION["auth"]);
+
 //error
 error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 ini_set('display_errors', 1);
@@ -29,7 +32,7 @@ echo "<br>pass is: $pass <br>";
 function authenticate ($db, $ucid, $pass) {
 	
 	$s = "select * from users where ucid='$ucid' and pass='$pass'";
-	echo "<br>SQL select statement is $s";
+	echo "<br>SQL select statement is $s<br>";
 	//$t: "result set"
 	($t = mysqli_query($db, $s)) or (die(mysqli_error($db)));
 	$num = mysqli_num_rows ($t);
@@ -42,9 +45,16 @@ function authenticate ($db, $ucid, $pass) {
 	
 	;}
 
-if (authenticate ($db, $ucid, $pass)) {
-	echo "<br>success";
-	} else {
-		echo "<br>failed";
+if (!authenticate ($db, $ucid, $pass)) { //fail
+	echo "<br>failed...<br>";
+	//redirect vthp
+	header("refresh: 4, url=z3.html"); //"kick out code"
+	exit();
+	} else { //success
+		echo "<br>success, please wait for redirect,,,";
+		$_SESSION["auth"] = true;
+		
+		header("refresh: 4, url=z3KB.php"); 
+		exit();
 	}
 ?>
