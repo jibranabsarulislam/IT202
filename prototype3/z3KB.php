@@ -1,32 +1,29 @@
 <?php
-	
+
 	session_start();
 
-	if (!isset($_SESSION["auth"]){ //if not defined
+	error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
+	ini_set('display_errors', 1);
+	
+	setcookie("doneBy", "absarulislam", time() + (86400*30),"/");
+	setcookie("doneAt", date('l jS \of F Y h:i:s A'), time() + (86400*30), "/");
+
+	if (!isset($_SESSION["auth"])) { //if not defined
 		echo "<br>Log in...you will be redirected shortly.";
-		header("refresh: 5, url=z3.html"); //"kick out code"
+		header("refresh: 2, url=authenticate.html"); //"kick out code"
 		exit();
 	} 
-	mysqli_select_db($db,$project);
-	echo "success";
-	
-	$ucid=$_SESSION["ucid"];
-	
-	function listTrans($db, $ucid) {
-		$s = "select * from transactions where ucid='$ucid'";
-		echo "<br>SQL select statement is: $s<br>";
-		($t = mysqli_query($db, $s)) or (die(mysqli_error($db)));
-		$num = mysqli_num_rows ($t);
-		echo "<br> $num rows retrieved from DB table.<br><br>";
-		if($num==0) {
-			exit("No rows retrieved");
-		}
-		
-		while ($r=mysqli_fetch_array($t, MYSQLI_ASSOC)){
-			$amount = $r["amount" ];
-		}
-		
-		
+	echo "success<br>";
+
+	include ("account.php");
+	$db = mysqli_connect($hostname,$username,$password, $project );
+	if (mysqli_connect_errno()) {     
+		echo "Failed to connect to MySQL: " . mysqli_connect_error();  
+		exit();
 	}
+	print "You have successfully connected to MySQL database.<br>";
+	mysqli_select_db( $db, $project );
+	include("z3myfunctions.php");
+	$ucid=$_SESSION["ucid"];
 	listTrans($db, $ucid);
 ?>
