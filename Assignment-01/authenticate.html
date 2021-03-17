@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" href="resources/style.css" />
+    <script src="resources/script.js" defer></script>
+  </head>
+  <form action="../" id="back"></form>
+  <button type="Submit" form="back" value="back">Go Back</button>
+  <div class="container">
+    <!-- <form method="POST" action="authenticate.php"> -->
+      <form action="authenticate.php">
+      <h2>
+        UCID
+        <input type="text" id="ucid" name="ucid" class="absolute" />
+      </h2>
+      <h2>
+        Password
+        <input type="password" id="pass" name="pass" />
+      </h2>
+      <div class="submit">
+        <input type="submit" id="submit" value="SUBMIT" />
+
+        <input id="check" type="checkbox" onclick="passVisToggle()" />
+        <span id="p1" onclick="passVisToggle()">Show Password </span>
+      </div>
+      <p style="color: gray">
+        <br>UCID: jga26 <br>
+        Password: NJITRules2021
+      </p>
+    </form>
+  </div>
+</html>
